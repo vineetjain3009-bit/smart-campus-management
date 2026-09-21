@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign in · SmartCampus</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="login-page">
+  <main class="login-card">
+    <div class="login-hero"><a class="brand brand-light" href="{{ url_for('login') }}"><span class="brand-mark">S</span><span>SmartCampus</span></a><div><span class="eyebrow">ONE CAMPUS, CLEARER DAYS</span><h1>Run campus life with confidence.</h1><p>A calm, focused operating space for students, attendance, assignments, and events.</p></div><div class="hero-stat"><strong>9</strong><span>students ready in your demo workspace</span></div></div>
+    <section class="login-form-panel"><div class="form-heading"><span class="eyebrow">ADMIN PORTAL</span><h2>Welcome back</h2><p>Enter your credentials to access campus operations.</p></div>
+      {% with messages = get_flashed_messages(with_categories=true) %}{% for category, message in messages %}<div class="inline-alert {{ category }}">{{ message }}</div>{% endfor %}{% endwith %}
+      <form method="post" class="stack-form"><label>Username<input name="username" autocomplete="username" placeholder="Enter your username" required autofocus></label><label>Password<input type="password" name="password" autocomplete="current-password" placeholder="Enter your password" required></label><button class="button button-primary button-full" type="submit">Sign in to dashboard <span>→</span></button></form>
+      <div class="demo-note"><span>Demo access</span><strong>admin</strong><span>·</span><strong>admin123</strong></div>
+    </section>
+  </main>
+</body>
+</html>

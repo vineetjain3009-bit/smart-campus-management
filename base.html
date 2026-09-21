@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Smart Campus Management System">
+  <title>{{ title }} · SmartCampus</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  {% block head %}{% endblock %}
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="{{ url_for('dashboard') }}"><span class="brand-mark">S</span><span>SmartCampus</span></a>
+      <div class="sidebar-label">Workspace</div>
+      <nav class="nav-list" aria-label="Main navigation">
+        <a class="nav-link {% if request.endpoint == 'dashboard' %}active{% endif %}" href="{{ url_for('dashboard') }}"><span>▦</span> Dashboard</a>
+        <a class="nav-link {% if request.endpoint in ['students', 'add_student', 'edit_student', 'student_detail'] %}active{% endif %}" href="{{ url_for('students') }}"><span>♙</span> Students</a>
+        <a class="nav-link {% if request.endpoint in ['attendance', 'delete_attendance'] %}active{% endif %}" href="{{ url_for('attendance') }}"><span>✓</span> Attendance</a>
+        <a class="nav-link {% if request.endpoint in ['assignments', 'add_assignment', 'edit_assignment'] %}active{% endif %}" href="{{ url_for('assignments') }}"><span>▤</span> Assignments</a>
+        <a class="nav-link {% if request.endpoint in ['events', 'add_event', 'edit_event'] %}active{% endif %}" href="{{ url_for('events') }}"><span>◇</span> Events</a>
+        <a class="nav-link {% if request.endpoint == 'analytics' %}active{% endif %}" href="{{ url_for('analytics') }}"><span>↗</span> Analytics</a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="support-card"><strong>Campus OS</strong><span>Academic year 2026–27</span></div>
+      </div>
+    </aside>
+    <div class="content-shell">
+      <header class="topbar">
+        <button class="icon-button menu-toggle" id="menu-toggle" aria-label="Open menu">☰</button>
+        <div class="topbar-context"><span class="eyebrow">Campus operations</span><span class="topbar-date">{{ title }}</span></div>
+        <div class="topbar-actions">
+          <button class="icon-button" id="theme-toggle" title="Toggle dark mode" aria-label="Toggle dark mode">◐</button>
+          <div class="avatar" aria-label="Campus administrator">{{ session.get('display_name', 'A')[0] }}</div>
+          <form method="post" action="{{ url_for('logout') }}"><button class="text-button" type="submit">Sign out</button></form>
+        </div>
+      </header>
+      <main class="main-content">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% for category, message in messages %}
+            <div class="toast toast-{{ category }}" role="status"><span>{% if category == 'success' %}✓{% elif category == 'danger' %}!{% else %}i{% endif %}</span>{{ message }}<button class="toast-close" aria-label="Dismiss">×</button></div>
+          {% endfor %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+      </main>
+    </div>
+  </div>
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+  <dialog id="confirm-dialog" class="confirm-dialog"><form method="dialog"><h3>Confirm action</h3><p id="confirm-copy">This action cannot be undone.</p><div class="dialog-actions"><button value="cancel" class="button button-secondary">Cancel</button><button value="confirm" class="button button-danger">Delete</button></div></form></dialog>
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>
